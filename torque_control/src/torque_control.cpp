@@ -57,7 +57,7 @@ TorqueController::TorqueController(ros::NodeHandle& nh, std::string name) :
   srv_grav_on = nh.advertiseService("turn_gravity_compensation_on", &TorqueController::gravityOnCallback, this);
   srv_grav_off = nh.advertiseService("turn_gravity_compensation_off", &TorqueController::gravityOffCallback, this);
 
-  torque_command_pub = nh.advertise<brics_actuator::JointTorques>("/arm_1/arm_controller/torques_command", 1);
+  torque_command_pub = nh.advertise<brics_actuator::JointTorques>("/arm_1/arm_controller/torque_command", 1);
   pos_command_pub = nh.advertise<brics_actuator::JointPositions>("/arm_1/arm_controller/position_command", 1);
 
   traj.start();

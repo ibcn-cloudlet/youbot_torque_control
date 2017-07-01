@@ -104,7 +104,7 @@ private:
   static const double loz_ = 0.1472;
   static const double l_2_ = 0.155;
   static const double l_3_ = 0.135;
-  static const double l_4_ = 0.218; // Including sensor carrier which is 1.5mm thick
+  static const double l_4_ = 0.268; // Including Festo gripper
 
 };
 

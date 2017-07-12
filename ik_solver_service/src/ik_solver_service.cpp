@@ -25,6 +25,12 @@
 
 namespace ik_solver_service {
 
+double YoubotGraspIK::lox_ = 0.033;
+double YoubotGraspIK::loz_ = 0.1472;
+double YoubotGraspIK::l_2_ = 0.155;
+double YoubotGraspIK::l_3_ = 0.135;
+double YoubotGraspIK::l_4_ = 0.218;
+
 bool solveClosestIK(ik_solver_service::SolveClosestIK::Request &req, ik_solver_service::SolveClosestIK::Response &res)
 {
   joint_positions_solution_t current_joint_positions;
@@ -73,7 +79,6 @@ bool solvePreferredPitchIK(ik_solver_service::SolvePreferredPitchIK::Request &re
   joint_positions_solution_t preferred_pitch_solution = YoubotGraspIK::solvePreferredPitchIK(req.preferred_pitch,
                                                                                              desired_position,
                                                                                              desired_normal);
-
   for (int i = 0; i < 5; i++)
   {
     res.joint_angles[i] = preferred_pitch_solution.joints[i];
@@ -197,7 +202,26 @@ using namespace ik_solver_service;
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "solve_ik_server");
-  ros::NodeHandle n;
+  ros::NodeHandle n("~");
+
+  double param;
+  if (n.getParam("lox", param)){
+    YoubotGraspIK::lox_ = param;
+  } 
+  if (n.getParam("loz", param)){
+    YoubotGraspIK::loz_ = param;
+  } 
+  if (n.getParam("l2", param)){
+    YoubotGraspIK::l_2_ = param;
+  } 
+  if (n.getParam("l3", param)){
+    YoubotGraspIK::l_3_ = param;
+  } 
+  if (n.getParam("l4", param)){
+    YoubotGraspIK::l_4_ = param;
+  } 
+
+  ROS_INFO_STREAM("IK params - Lox: " << YoubotGraspIK::lox_ << " Loz: " << YoubotGraspIK::loz_ <<" L2: " << YoubotGraspIK::l_2_ << " L3: " << YoubotGraspIK::l_3_ << " L4: " << YoubotGraspIK::l_4_);
 
   ros::ServiceServer solve_closest_ik_service = n.advertiseService("solve_closest_ik", solveClosestIK);
   ros::ServiceServer solve_preferred_pitch_ik_service = n.advertiseService("solve_preferred_pitch_ik",

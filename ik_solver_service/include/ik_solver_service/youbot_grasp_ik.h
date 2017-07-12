@@ -60,6 +60,14 @@ public:
   static joint_positions_solution_t solveFullyConstrainedIK(int id, double pitch, geometry_msgs::Point desired_position,
                                                             geometry_msgs::Vector3 desired_normal);
 
+  // Geometric Constants
+  static double lox_;
+  static double loz_;
+  static double l_2_;
+  static double l_3_;
+  static double l_4_;
+
+
 private:
 
   // find all solutions
@@ -98,14 +106,6 @@ private:
   static bool checkSingleSolutionFeasability(joint_positions_solution_t single_solution);
   static joint_positions_solution_t computeSingleIKSolution(Eigen::Vector3d des_position, double des_roll,
                                                             double des_pitch, int id);
-
-  // Geometric Constants
-  static const double lox_ = 0.033;
-  static const double loz_ = 0.1472;
-  static const double l_2_ = 0.155;
-  static const double l_3_ = 0.135;
-  static const double l_4_ = 0.268; // Including Festo gripper
-
 };
 
 } // namespace ik_solver_service
